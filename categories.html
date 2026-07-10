@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Browse Materials — MODIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-active="categories.html">
+<div id="modit-header"></div>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">18 categories · 1,240+ suppliers</div>
+    <h1>Browse building materials across Delhi NCR</h1>
+    <p>Cement, steel, sand, aggregate, bricks, tiles, sanitary, plumbing, electrical, paint, hardware, plywood, glass, tools &amp; finishing — live prices from verified local suppliers.</p>
+  </div>
+</div>
+
+<section style="padding-top:40px;">
+  <div class="wrap layout-2col">
+    <aside class="filter-card">
+      <h5>Category</h5>
+      <div class="filter-group">
+        <label><input type="checkbox" checked> Cement &amp; Concrete</label>
+        <label><input type="checkbox" checked> Steel &amp; TMT Bars</label>
+        <label><input type="checkbox"> Sand &amp; Aggregate</label>
+        <label><input type="checkbox"> Bricks &amp; Blocks</label>
+        <label><input type="checkbox"> Tiles &amp; Sanitary</label>
+        <label><input type="checkbox"> Plumbing</label>
+        <label><input type="checkbox"> Electrical</label>
+        <label><input type="checkbox"> Paint</label>
+        <label><input type="checkbox"> Hardware</label>
+        <label><input type="checkbox"> Plywood</label>
+        <label><input type="checkbox"> Glass</label>
+        <label><input type="checkbox"> Tools</label>
+      </div>
+      <h5>Location</h5>
+      <div class="filter-group">
+        <label><input type="checkbox" checked> Noida / Gr. Noida</label>
+        <label><input type="checkbox"> Gurugram</label>
+        <label><input type="checkbox"> Delhi</label>
+        <label><input type="checkbox"> Faridabad</label>
+        <label><input type="checkbox"> Ghaziabad</label>
+      </div>
+      <h5>Price range (₹)</h5>
+      <div class="filter-group">
+        <input type="range" min="0" max="100000" value="40000">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--paper-dim);"><span>₹0</span><span>₹1,00,000+</span></div>
+      </div>
+      <h5>Availability</h5>
+      <div class="filter-group">
+        <label><input type="checkbox" checked> In stock</label>
+        <label><input type="checkbox"> Delivery today</label>
+        <label><input type="checkbox"> GST billing</label>
+        <label><input type="checkbox"> BNPL eligible</label>
+      </div>
+      <button class="btn btn-amber btn-block">Apply filters</button>
+    </aside>
+
+    <div>
+      <div class="ai-hint" style="margin-bottom:20px;">✦ <span><b>Agentic AI:</b> Not sure what to order? Open the assistant and describe your project — e.g. "finishing materials for a 3BHK in Indirapuram" — for an instant matched list.</span></div>
+
+      <div class="section-head" style="margin-bottom:18px;">
+        <h2 style="font-size:22px;">428 products found</h2>
+        <select style="background:var(--concrete-2);border:1px solid var(--steel-line);color:var(--paper);padding:10px 14px;border-radius:6px;">
+          <option>Sort: Best match</option>
+          <option>Price: Low to High</option>
+          <option>Distance: Nearest</option>
+          <option>Delivery: Fastest</option>
+          <option>Rating: Highest</option>
+        </select>
+      </div>
+
+      <div class="prod-grid" id="prod-grid"></div>
+    </div>
+  </div>
+</section>
+
+<section class="divider">
+  <div class="wrap">
+    <div class="section-head"><div><div class="eyebrow">Live comparison</div><h2 style="font-size:26px;">OPC 43 Cement — price across suppliers</h2></div></div>
+    <table class="compare-table">
+      <thead><tr><th>Supplier</th><th>Location</th><th>Price / bag</th><th>Delivery</th><th>Rating</th><th>Stock</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>UltraTech Direct — Sector 63</td><td>Noida</td><td>₹372</td><td>2 hrs</td><td class="rating">4.6 ★</td><td><span class="pill-status green">In stock</span></td><td><a class="btn btn-sm btn-outline" href="quotation.html">Request quote</a></td></tr>
+        <tr><td>Shree Cement Hub</td><td>Gurugram</td><td class="best">₹365</td><td>24 hrs</td><td class="rating">4.4 ★</td><td><span class="pill-status green">In stock</span></td><td><a class="btn btn-sm btn-outline" href="quotation.html">Request quote</a></td></tr>
+        <tr><td>JK Lakshmi Depot</td><td>Faridabad</td><td>₹380</td><td>3 hrs</td><td class="rating">4.2 ★</td><td><span class="pill-status amber">Limited</span></td><td><a class="btn btn-sm btn-outline" href="quotation.html">Request quote</a></td></tr>
+        <tr><td>Ambuja Wholesale</td><td>Ghaziabad</td><td>₹369</td><td>5 hrs</td><td class="rating">4.5 ★</td><td><span class="pill-status green">In stock</span></td><td><a class="btn btn-sm btn-outline" href="quotation.html">Request quote</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div id="modit-footer"></div>
+<script src="js/chrome.js"></script>
+<script>
+const PRODUCTS = [
+  {icon:"🧱", name:"UltraTech OPC 43 Cement (50kg)", cat:"Cement", price:372, unit:"/ bag", supplier:"12 suppliers · Noida"},
+  {icon:"🔩", name:"Fe500D TMT Bar 12mm", cat:"Steel", price:61500, unit:"/ MT", supplier:"9 suppliers · Gurugram"},
+  {icon:"⛰️", name:"River Sand (Coarse)", cat:"Aggregate", price:54, unit:"/ cu.ft", supplier:"7 suppliers · Faridabad"},
+  {icon:"🧱", name:"Red Clay Bricks (Class A)", cat:"Bricks", price:9, unit:"/ piece", supplier:"15 suppliers · Delhi"},
+  {icon:"🚿", name:"Vitrified Tile 600x600 Glossy", cat:"Tiles", price:48, unit:"/ sq.ft", supplier:"11 suppliers · Noida"},
+  {icon:"🔌", name:"Havells 2.5mm Copper Wire (90m)", cat:"Electrical", price:2350, unit:"/ coil", supplier:"8 suppliers · Ghaziabad"},
+  {icon:"🎨", name:"Asian Paints Tractor Emulsion (20L)", cat:"Paint", price:2680, unit:"/ drum", supplier:"6 suppliers · Gurugram"},
+  {icon:"🪵", name:"Century Ply MR Grade 19mm", cat:"Plywood", price:118, unit:"/ sq.ft", supplier:"5 suppliers · Delhi"},
+  {icon:"🪟", name:"Saint-Gobain Clear Glass 5mm", cat:"Glass", price:62, unit:"/ sq.ft", supplier:"4 suppliers · Noida"},
+];
+document.getElementById("prod-grid").innerHTML = PRODUCTS.map(p => `
+  <div class="prod-card">
+    <div class="prod-thumb">${p.icon}</div>
+    <div class="prod-body">
+      <h4>${p.name}</h4>
+      <div class="meta">${p.cat} · ${p.supplier}</div>
+      <div class="prod-price"><b>₹${p.price.toLocaleString("en-IN")}</b><span>${p.unit}</span></div>
+      <a href="quotation.html" class="btn btn-outline btn-sm btn-block" style="margin-top:12px;">Add to quotation</a>
+    </div>
+  </div>`).join("");
+</script>
+</body>
+</html>

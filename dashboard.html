@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Supplier Dashboard — MODIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+<style>
+  .order-table{width:100%;border-collapse:collapse;}
+  .order-table th, .order-table td{padding:13px 14px;text-align:left;border-bottom:1px solid var(--steel-line);font-size:13px;}
+  .order-table th{font-family:var(--font-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--paper-dim);background:var(--concrete-1);}
+  .inv-bar{height:180px;display:flex;align-items:flex-end;gap:12px;padding:12px 0;}
+  .inv-bar .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .inv-bar .col .fill{width:100%;border-radius:4px 4px 0 0;background:var(--amber);}
+  .inv-bar .col span{font-size:10px;font-family:var(--font-mono);color:var(--paper-dim);text-align:center;}
+  .inv-bar .col b{font-size:11px;}
+  .demand-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--steel-line);font-size:13px;}
+  .demand-item:last-child{border:none;}
+  .demand-item .icon{font-size:20px;}
+  .demand-item .label{flex:1;}
+  .demand-item .trend{font-family:var(--font-mono);font-size:11px;color:var(--ok-green);}
+  .demand-item .trend.down{color:var(--warn-red);}
+  .lead-card{background:var(--concrete-1);border:1px solid var(--steel-line);border-radius:var(--radius-s);padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+  .lead-card .info b{display:block;font-size:14px;}
+  .lead-card .info span{font-size:11.5px;color:var(--paper-dim);}
+  .notif{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--steel-line);font-size:13px;}
+  .notif .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);margin-top:5px;flex-shrink:0;}
+  .notif span{color:var(--paper-dim);}
+</style>
+</head>
+<body data-active="dashboard.html">
+<div id="modit-header"></div>
+
+<div class="page-head" style="padding-bottom:24px;">
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;">
+    <div>
+      <div class="eyebrow">Supplier portal</div>
+      <h1 style="font-size:32px;">RK Steel Traders — Dashboard</h1>
+      <p style="margin:0;">Sector 62, Noida · Last updated 2 min ago · <span style="color:var(--ok-green);">● Live</span></p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a href="register-supplier.html" class="btn btn-outline btn-sm">Edit profile</a>
+      <button class="btn btn-amber btn-sm" onclick="alert('New inventory entry opened.')">+ Add inventory</button>
+    </div>
+  </div>
+</div>
+
+<div style="border-top:1px solid var(--steel-line);">
+  <div class="wrap dash-grid" style="padding:0;">
+
+    <!-- Sidebar nav -->
+    <div class="dash-side">
+      <h5>Overview</h5>
+      <a href="#" class="active">📊 Dashboard</a>
+      <a href="#">📦 Orders</a>
+      <a href="#">📄 Quotations</a>
+      <a href="#">🧾 Invoices &amp; GST</a>
+      <h5>Inventory</h5>
+      <a href="#">🔩 My products</a>
+      <a href="#">📥 Add / update stock</a>
+      <a href="#">⚠️ Low stock alerts</a>
+      <h5>Insights (AI)</h5>
+      <a href="#">📈 Demand forecast</a>
+      <a href="#">💬 Customer leads</a>
+      <a href="#">💰 Pricing intelligence</a>
+      <h5>Account</h5>
+      <a href="#">👤 Profile &amp; GSTIN</a>
+      <a href="#">💳 Payouts</a>
+      <a href="#">⚙️ Settings</a>
+    </div>
+
+    <!-- Main -->
+    <div class="dash-main">
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi"><span>Total revenue (MTD)</span><b>₹18.4L</b><div class="delta">▲ +12% vs last month</div></div>
+        <div class="kpi"><span>Orders (MTD)</span><b>94</b><div class="delta">▲ +8 vs last month</div></div>
+        <div class="kpi"><span>Pending quotations</span><b>17</b><div class="delta" style="color:var(--amber);">▲ 5 new today</div></div>
+        <div class="kpi"><span>Avg. delivery time</span><b>2.8 hrs</b><div class="delta">▲ Better than 78% of NCR</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+
+        <!-- Inventory bar chart -->
+        <div class="panel">
+          <h4>Inventory levels <span style="font-size:12px;color:var(--paper-dim);">Today</span></h4>
+          <div class="inv-bar">
+            <div class="col"><div class="fill" style="height:80%;background:var(--ok-green);"></div><b>Fe500D 12mm</b><span>↑ 82%</span></div>
+            <div class="col"><div class="fill" style="height:55%;"></div><b>Fe500D 10mm</b><span>55%</span></div>
+            <div class="col"><div class="fill" style="height:30%;background:var(--warn-red);"></div><b>Fe500 8mm</b><span>⚠ 30%</span></div>
+            <div class="col"><div class="fill" style="height:70%;background:var(--ok-green);"></div><b>Angle Iron</b><span>70%</span></div>
+            <div class="col"><div class="fill" style="height:45%;"></div><b>Flat Bar</b><span>45%</span></div>
+          </div>
+          <div class="ai-hint" style="margin-top:10px;font-size:12px;">✦ AI: Fe500 8mm at 30% — likely stock-out in 5 days at current pace. <a href="#" style="color:var(--rebar-blue);">Reorder now →</a></div>
+        </div>
+
+        <!-- AI demand forecast -->
+        <div class="panel">
+          <h4>AI demand forecast <span class="badge-ai">AI</span></h4>
+          <div class="demand-item"><div class="icon">🔩</div><div class="label">Fe500D 12mm TMT bars</div><div class="trend">▲ +22% next week</div></div>
+          <div class="demand-item"><div class="icon">⚙️</div><div class="label">Structural steel (IS 2062)</div><div class="trend">▲ +14% next week</div></div>
+          <div class="demand-item"><div class="icon">🧱</div><div class="label">Wire mesh (100mm × 100mm)</div><div class="trend down">▼ −8%</div></div>
+          <div class="demand-item"><div class="icon">📦</div><div class="label">Mild steel flat bar</div><div class="trend">▲ +6%</div></div>
+          <div class="demand-item"><div class="icon">🔗</div><div class="label">Binding wire</div><div class="trend">→ Stable</div></div>
+          <p style="font-size:12px;color:var(--rebar-blue);margin-top:10px;">Based on NCR construction activity, competitor stock data and seasonal trends.</p>
+        </div>
+      </div>
+
+      <!-- Revenue bar -->
+      <div class="panel">
+        <h4 style="margin-bottom:16px;">Revenue by material category (June 2026)</h4>
+        <div class="bar-row"><div class="label">Fe500D 12mm</div><div class="bar-track"><div class="bar-fill" style="width:78%;"></div></div><div class="val">₹7.2L</div></div>
+        <div class="bar-row"><div class="label">Fe500D 10mm</div><div class="bar-track"><div class="bar-fill" style="width:55%;"></div></div><div class="val">₹5.1L</div></div>
+        <div class="bar-row"><div class="label">Structural Steel</div><div class="bar-track"><div class="bar-fill" style="width:38%;"></div></div><div class="val">₹3.5L</div></div>
+        <div class="bar-row"><div class="label">Wire Mesh</div><div class="bar-track"><div class="bar-fill" style="width:25%;"></div></div><div class="val">₹2.6L</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+
+        <!-- Recent orders -->
+        <div class="panel">
+          <h4 style="margin-bottom:14px;">Recent orders</h4>
+          <table class="order-table">
+            <thead><tr><th>Order</th><th>Buyer</th><th>Value</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td style="font-family:var(--font-mono);">MD-10236</td><td>BuildWell Infra</td><td>₹1,23,000</td><td><span class="pill-status amber">In transit</span></td></tr>
+              <tr><td style="font-family:var(--font-mono);">MD-10235</td><td>Arora Contractors</td><td>₹87,500</td><td><span class="pill-status green">Delivered</span></td></tr>
+              <tr><td style="font-family:var(--font-mono);">MD-10234</td><td>Sharma Builders</td><td>₹2,45,000</td><td><span class="pill-status green">Delivered</span></td></tr>
+              <tr><td style="font-family:var(--font-mono);">MD-10233</td><td>NCR Developers</td><td>₹4,80,000</td><td><span class="pill-status green">Delivered</span></td></tr>
+            </tbody>
+          </table>
+          <a href="#" class="btn btn-ghost btn-sm" style="margin-top:12px;">View all orders →</a>
+        </div>
+
+        <!-- New customer leads -->
+        <div class="panel">
+          <h4 style="margin-bottom:14px;">AI-matched customer leads <span class="badge-ai">AI</span></h4>
+          <div class="lead-card">
+            <div class="info"><b>Gupta Constructions</b><span>Needs 50MT TMT · Gurugram · Budget ₹30L</span></div>
+            <a href="quotation.html" class="btn btn-amber btn-sm">Send quote</a>
+          </div>
+          <div class="lead-card">
+            <div class="info"><b>NCR Infra Projects</b><span>Needs 120MT structural steel · Noida</span></div>
+            <a href="quotation.html" class="btn btn-amber btn-sm">Send quote</a>
+          </div>
+          <div class="lead-card">
+            <div class="info"><b>Mehta Builders</b><span>Needs 25MT TMT bars · Faridabad · BNPL</span></div>
+            <a href="quotation.html" class="btn btn-sm btn-outline">View lead</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="panel">
+        <h4 style="margin-bottom:14px;">Notifications &amp; alerts</h4>
+        <div class="notif"><div class="dot"></div><div><b>New RFQ received:</b> <span>BuildWell Infra needs 30MT Fe500D 12mm — respond within 4 hrs to maintain ranking</span></div></div>
+        <div class="notif"><div class="dot" style="background:var(--warn-red);"></div><div><b>Low stock alert:</b> <span>Fe500 8mm bars below 30% — reorder recommended within 5 days (AI forecast)</span></div></div>
+        <div class="notif"><div class="dot" style="background:var(--ok-green);"></div><div><b>GST return due:</b> <span>GSTR-1 for June 2026 due July 11 — 7 invoices pending</span></div></div>
+        <div class="notif"><div class="dot" style="background:var(--rebar-blue);"></div><div><b>Pricing insight:</b> <span>Competitor Jindal Depot lowered TMT 12mm to ₹60,800/MT — AI suggests reviewing your pricing</span></div></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div id="modit-footer"></div>
+<script src="js/chrome.js"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Suppliers — MODIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-active="suppliers.html">
+<div id="modit-header"></div>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">1,240+ verified businesses</div>
+    <h1>Find verified building material suppliers near you</h1>
+    <p>Browse cement dealers, steel stockists, tile showrooms, hardware merchants and more — rated, GST-verified and delivery-mapped across Delhi NCR.</p>
+  </div>
+</div>
+
+<section style="padding-top:40px;">
+  <div class="wrap layout-2col">
+    <!-- Filters -->
+    <aside class="filter-card">
+      <h5>Location</h5>
+      <div class="filter-group">
+        <label><input type="checkbox" checked> Noida</label>
+        <label><input type="checkbox" checked> Greater Noida</label>
+        <label><input type="checkbox"> Gurugram</label>
+        <label><input type="checkbox"> Delhi</label>
+        <label><input type="checkbox"> Faridabad</label>
+        <label><input type="checkbox"> Ghaziabad</label>
+      </div>
+      <h5>Category supplied</h5>
+      <div class="filter-group">
+        <label><input type="checkbox" checked> Cement</label>
+        <label><input type="checkbox"> TMT Steel</label>
+        <label><input type="checkbox"> Sand / Aggregate</label>
+        <label><input type="checkbox"> Tiles</label>
+        <label><input type="checkbox"> Electrical</label>
+        <label><input type="checkbox"> Paint</label>
+        <label><input type="checkbox"> Hardware</label>
+      </div>
+      <h5>Buyer type served</h5>
+      <div class="filter-group">
+        <label><input type="checkbox"> Retail / B2C</label>
+        <label><input type="checkbox" checked> Contractor / Builder</label>
+        <label><input type="checkbox"> Architect</label>
+        <label><input type="checkbox"> Project developer</label>
+      </div>
+      <h5>Features</h5>
+      <div class="filter-group">
+        <label><input type="checkbox" checked> GST billing</label>
+        <label><input type="checkbox"> BNPL eligible</label>
+        <label><input type="checkbox"> Same-day delivery</label>
+        <label><input type="checkbox"> Bulk discount</label>
+      </div>
+      <h5>Minimum rating</h5>
+      <div class="filter-group">
+        <input type="range" min="1" max="5" step="0.5" value="4">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--paper-dim);"><span>★ 1</span><span>★ 5</span></div>
+      </div>
+      <button class="btn btn-amber btn-block">Apply</button>
+    </aside>
+
+    <div>
+      <!-- AI vendor match panel -->
+      <div class="ai-hint" style="margin-bottom:20px;">✦ <span><b>AI Vendor Matching:</b> Describe your project and the agent will shortlist the top 3 suppliers by location, price, delivery speed and material rating — automatically.</span></div>
+
+      <div class="section-head" style="margin-bottom:18px;">
+        <h2 style="font-size:22px;">Showing 284 suppliers · Noida + Gr. Noida</h2>
+        <select style="background:var(--concrete-2);border:1px solid var(--steel-line);color:var(--paper);padding:10px 14px;border-radius:6px;">
+          <option>Sort: AI recommended</option>
+          <option>Nearest first</option>
+          <option>Highest rated</option>
+          <option>Lowest price</option>
+          <option>Fastest delivery</option>
+        </select>
+      </div>
+
+      <!-- Supplier list -->
+      <div id="supplier-list"></div>
+
+      <div style="display:flex;justify-content:center;margin-top:28px;gap:10px;">
+        <button class="btn btn-outline">← Prev</button>
+        <button class="btn btn-amber">Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Map strip -->
+<section class="divider">
+  <div class="wrap">
+    <div class="section-head"><div><div class="eyebrow">NCR coverage map</div><h2 style="font-size:26px;">Supplier density across Delhi NCR zones</h2></div></div>
+    <div style="background:var(--concrete-2);border:1px solid var(--steel-line);border-radius:var(--radius-m);height:320px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--paper-dim);">
+      <div style="text-align:center;">
+        <div style="font-size:48px;margin-bottom:14px;">🗺️</div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--amber);">Interactive Supplier Map</div>
+        <p style="max-width:360px;margin:10px auto 0;">Live interactive map would load here — pinned suppliers with real-time stock indicators across Noida, Gurugram, Delhi, Faridabad &amp; Ghaziabad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="divider" style="padding:50px 0;">
+  <div class="wrap">
+    <div class="cta-band">
+      <div>
+        <h3>Want to be listed on MODIT?</h3>
+        <p>Register your business, upload your catalogue, go live to 40,000+ verified contractors and builders across NCR.</p>
+      </div>
+      <a href="register-supplier.html" class="btn btn-amber">Register as supplier →</a>
+    </div>
+  </div>
+</section>
+
+<div id="modit-footer"></div>
+<script src="js/chrome.js"></script>
+<script>
+const SUPPLIERS = [
+  {
+    name:"RK Steel Traders",
+    initials:"RK",
+    area:"Sector 62, Noida · 1.4 km",
+    cats:["TMT Steel","Structural Steel","Wire Mesh"],
+    desc:"Delhi NCR's largest independent TMT bar stockist with same-day dispatch for 10MT+ orders. GSTIN verified, Fe500D &amp; Fe500 grades in stock.",
+    rating:"4.8",
+    reviews:312,
+    delivery:"2–3 hrs",
+    badge:"Top supplier",
+    features:["Bulk discount","GST","BNPL"]
+  },
+  {
+    name:"UltraTech Cement Direct",
+    initials:"UC",
+    area:"Sector 80, Noida · 3.2 km",
+    cats:["OPC 43","OPC 53","PPC","Dry Mix"],
+    desc:"Authorised UltraTech depot. Competitive bulk pricing with e-invoice GST billing and same-day delivery within 20km.",
+    rating:"4.6",
+    reviews:527,
+    delivery:"1–2 hrs",
+    badge:"Verified depot",
+    features:["GST","Fast delivery"]
+  },
+  {
+    name:"Kamal Tiles &amp; Sanitary",
+    initials:"KT",
+    area:"Sector 18, Noida · 4.1 km",
+    cats:["Vitrified Tiles","Sanitary Ware","CP Fittings"],
+    desc:"400+ SKUs of tiles and sanitary fittings. Stock for project developers and retail. Credit available for pre-qualified contractors.",
+    rating:"4.3",
+    reviews:189,
+    delivery:"24 hrs",
+    badge:"",
+    features:["GST","Bulk discount"]
+  },
+  {
+    name:"Gupta Hardware &amp; Plywood",
+    initials:"GH",
+    area:"Atta Market, Noida · 2.7 km",
+    cats:["Plywood","Hardware","Laminates","Adhesives"],
+    desc:"Complete hardware and woodwork range — Century, Greenply, Merino in stock. Wholesale pricing for 200-sheet+ orders.",
+    rating:"4.1",
+    reviews:143,
+    delivery:"4–6 hrs",
+    badge:"",
+    features:["GST"]
+  },
+  {
+    name:"Delhi Aggregate Suppliers",
+    initials:"DA",
+    area:"Garhi, Greater Noida · 8.9 km",
+    cats:["River Sand","Crushed Stone","Aggregate","M-Sand"],
+    desc:"Largest aggregate supplier in Greater Noida. 200+ tippers available. Same-day delivery for 50-cubic-feet+ orders.",
+    rating:"4.4",
+    reviews:276,
+    delivery:"3–5 hrs",
+    badge:"Verified",
+    features:["Bulk discount","GST"]
+  },
+  {
+    name:"Havells &amp; Anchor Electricals Hub",
+    initials:"HA",
+    area:"Sector 63, Noida · 2.0 km",
+    cats:["Wires &amp; Cables","MCBs","Switches","Conduits"],
+    desc:"Authorised distributor for Havells, Anchor, Legrand. Complete electrical BOQ fulfilment. Engineering support available.",
+    rating:"4.7",
+    reviews:408,
+    delivery:"Same day",
+    badge:"AI-matched",
+    features:["GST","BNPL","Bulk discount"]
+  },
+];
+
+document.getElementById("supplier-list").innerHTML = SUPPLIERS.map(s => `
+  <div class="sup-card">
+    <div class="sup-logo">${s.initials}</div>
+    <div class="sup-info">
+      <h4>${s.name} ${s.badge ? `<span class="pill-status green" style="font-size:10px;">${s.badge}</span>` : ""}</h4>
+      <div class="meta">📍 ${s.area} · ⏱ Delivery in ${s.delivery} · <span class="rating">${s.rating} ★</span> (${s.reviews} reviews)</div>
+      <p style="font-size:13px;color:var(--paper-dim);margin-bottom:10px;">${s.desc}</p>
+      <div class="sup-tags">
+        ${s.cats.map(c=>`<span>${c}</span>`).join("")}
+        ${s.features.map(f=>`<span style="color:var(--ok-green);border-color:rgba(76,175,125,.4);">${f}</span>`).join("")}
+      </div>
+    </div>
+    <div class="sup-actions">
+      <a href="quotation.html" class="btn btn-amber btn-sm">Request quote</a>
+      <a href="#" class="btn btn-outline btn-sm">View profile</a>
+    </div>
+  </div>`).join("");
+</script>
+</body>
+</html>

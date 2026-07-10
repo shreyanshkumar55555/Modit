@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign In — MODIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-active="login.html">
+<div id="modit-header"></div>
+
+<section style="display:flex;justify-content:center;align-items:center;min-height:70vh;padding:60px 24px;">
+  <div style="width:100%;max-width:420px;">
+    <div style="text-align:center;margin-bottom:30px;">
+      <div class="eyebrow" style="justify-content:center;">Delhi NCR · Building Materials</div>
+      <h1 style="font-size:28px;">Sign in to MODIT</h1>
+      <p>For contractors, builders, architects and suppliers.</p>
+    </div>
+
+    <div class="form-card">
+      <div id="login-step1">
+        <div class="form-row">
+          <label>Mobile number</label>
+          <input type="tel" id="phone-input" placeholder="+91 98xxx xxxxx" />
+        </div>
+        <button class="btn btn-amber btn-block" onclick="sendOtp()">Send OTP →</button>
+        <div style="text-align:center;margin:18px 0;color:var(--paper-dim);font-size:13px;">— or continue with —</div>
+        <button class="btn btn-outline btn-block" style="margin-bottom:10px;" onclick="alert('Google auth would trigger here')">🔵 Continue with Google</button>
+        <button class="btn btn-outline btn-block" onclick="alert('Email sign-in form')">📧 Sign in with email</button>
+      </div>
+
+      <div id="login-step2" style="display:none;">
+        <div style="text-align:center;margin-bottom:20px;">
+          <div style="font-size:28px;margin-bottom:8px;">📱</div>
+          <p>OTP sent to <b id="phone-display">+91 98xxx xxxxx</b></p>
+        </div>
+        <div class="form-row">
+          <label>Enter 6-digit OTP</label>
+          <input type="text" placeholder="000000" maxlength="6" id="otp-input" style="letter-spacing:.3em;font-size:20px;text-align:center;" />
+        </div>
+        <button class="btn btn-amber btn-block" onclick="verifyOtp()">Verify &amp; Sign in →</button>
+        <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--paper-dim);">
+          Didn't receive? <a href="#" style="color:var(--amber);" onclick="resendOtp()">Resend OTP</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:22px;font-size:13.5px;color:var(--paper-dim);">
+      New supplier? <a href="register-supplier.html" style="color:var(--amber);">List your business →</a>
+    </div>
+  </div>
+</section>
+
+<div id="modit-footer"></div>
+<script src="js/chrome.js"></script>
+<script>
+function sendOtp() {
+  const p = document.getElementById("phone-input").value;
+  if(!p){ alert("Enter a mobile number."); return; }
+  document.getElementById("phone-display").textContent = p;
+  document.getElementById("login-step1").style.display = "none";
+  document.getElementById("login-step2").style.display = "block";
+}
+function verifyOtp() {
+  const o = document.getElementById("otp-input").value;
+  if(o.length < 4){ alert("Enter the OTP sent to your number."); return; }
+  alert("Signed in successfully! Redirecting to dashboard…");
+  window.location.href = "dashboard.html";
+}
+function resendOtp(){ alert("OTP resent."); }
+</script>
+</body>
+</html>

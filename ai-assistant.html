@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agentic AI — MODIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+<style>
+  .ai-page-wrap{display:grid;grid-template-columns:320px 1fr;gap:0;min-height:80vh;border:1px solid var(--steel-line);border-radius:var(--radius-m);overflow:hidden;margin-top:32px;}
+  .ai-sidebar{background:var(--concrete-1);border-right:1px solid var(--steel-line);padding:22px 18px;display:flex;flex-direction:column;gap:20px;}
+  .ai-sidebar h4{font-size:14px;margin-bottom:8px;}
+  .mode-btn{width:100%;text-align:left;background:var(--concrete-2);border:1px solid var(--steel-line);color:var(--paper);padding:13px 14px;border-radius:var(--radius-s);font-size:13.5px;font-family:var(--font-body);font-weight:600;cursor:pointer;display:flex;gap:10px;align-items:flex-start;}
+  .mode-btn .sub{font-size:11.5px;color:var(--paper-dim);font-weight:400;display:block;margin-top:2px;}
+  .mode-btn.active{border-color:var(--rebar-blue);background:rgba(94,168,255,.07);}
+  .ai-main{display:flex;flex-direction:column;}
+  .ai-chat-head{padding:18px 22px;border-bottom:1px solid var(--steel-line);background:var(--concrete-2);display:flex;justify-content:space-between;align-items:center;}
+  .ai-chat-head h3{font-size:16px;margin:0;}
+  .ai-chat-head .status{font-family:var(--font-mono);font-size:11px;color:var(--ok-green);}
+  .ai-chat-body{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:14px;min-height:400px;}
+  .chat-msg{max-width:78%;padding:12px 15px;border-radius:10px;font-size:13.8px;line-height:1.55;}
+  .chat-msg.bot{background:var(--concrete-2);border:1px solid var(--steel-line);}
+  .chat-msg.user{background:var(--amber);color:#191300;font-weight:600;align-self:flex-end;}
+  .chat-msg .bot-label{font-family:var(--font-mono);font-size:10px;color:var(--rebar-blue);display:block;margin-bottom:5px;letter-spacing:.06em;}
+  .chat-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .chat-action-btn{background:none;border:1px solid var(--steel-line);color:var(--paper-dim);font-size:11.5px;padding:5px 10px;border-radius:14px;font-family:var(--font-body);cursor:pointer;}
+  .chat-action-btn:hover{border-color:var(--rebar-blue);color:var(--rebar-blue);}
+  .ai-input-row{padding:16px 22px;border-top:1px solid var(--steel-line);background:var(--concrete-2);display:flex;gap:10px;align-items:center;}
+  .ai-input-row input{flex:1;background:var(--concrete-1);border:1px solid var(--steel-line);color:var(--paper);padding:13px 14px;border-radius:var(--radius-s);font-size:14px;font-family:var(--font-body);}
+  .voice-btn{width:44px;height:44px;border-radius:50%;background:var(--concrete-1);border:1px solid var(--steel-line);color:var(--paper-dim);font-size:18px;cursor:pointer;flex-shrink:0;}
+  .voice-btn.listening{background:rgba(255,93,93,.15);border-color:var(--warn-red);color:var(--warn-red);}
+  .agent-step{display:flex;gap:12px;align-items:flex-start;font-size:13px;padding:10px 0;border-bottom:1px solid var(--steel-line);}
+  .agent-step:last-child{border:none;}
+  .agent-step .step-icon{width:30px;height:30px;border-radius:50%;background:rgba(94,168,255,.12);color:var(--rebar-blue);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .agent-step.done .step-icon{background:rgba(76,175,125,.15);color:var(--ok-green);}
+  .agent-step .step-text b{display:block;font-size:12.5px;margin-bottom:2px;}
+  .agent-step .step-text span{color:var(--paper-dim);}
+  @media(max-width:820px){.ai-page-wrap{grid-template-columns:1fr;}.ai-sidebar{display:none;}}
+</style>
+</head>
+<body data-active="ai-assistant.html">
+<div id="modit-header"></div>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Agentic AI · Full procurement loop</div>
+    <h1>Not just a chatbot — a procurement agent that acts</h1>
+    <p>MODIT's Agentic AI searches, compares, negotiates, places orders and tracks delivery across Delhi NCR suppliers — completely hands-free once you approve.</p>
+  </div>
+</div>
+
+<section style="padding-top:20px;">
+  <div class="wrap">
+
+    <!-- Agent capability cards -->
+    <div class="feat-grid" style="margin-bottom:36px;">
+      <div class="feat-card ai"><span class="badge-ai">SEARCH</span><div class="icon">🔍</div><h4>Material discovery</h4><p>Search across 1,240+ verified NCR suppliers in natural language — brand, grade, location, delivery preference.</p></div>
+      <div class="feat-card ai"><span class="badge-ai">COMPARE</span><div class="icon">⚖️</div><h4>Live price comparison</h4><p>Normalises quotes across different units, GST slabs and delivery costs for true apple-to-apple comparison.</p></div>
+      <div class="feat-card ai"><span class="badge-ai">NEGOTIATE</span><div class="icon">🤝</div><h4>Autonomous negotiation</h4><p>Sends counter-offers to suppliers based on market benchmark, order volume and historical prices — no phone calls needed.</p></div>
+      <div class="feat-card ai"><span class="badge-ai">ORDER</span><div class="icon">📦</div><h4>One-click procurement</h4><p>Once you approve the quote, the agent places the order, generates GST invoice and schedules delivery.</p></div>
+      <div class="feat-card ai"><span class="badge-ai">TRACK</span><div class="icon">🚚</div><h4>Live delivery tracking</h4><p>Real-time position of materials from dispatch to your site gate — with SMS &amp; app alerts.</p></div>
+      <div class="feat-card ai"><span class="badge-ai">REORDER</span><div class="icon">🔁</div><h4>Smart reorder</h4><p>Predicts when your site will run short based on consumption pace and automatically drafts the next RFQ.</p></div>
+    </div>
+
+    <!-- Main agent interface -->
+    <div class="ai-page-wrap">
+      <!-- Sidebar: modes -->
+      <div class="ai-sidebar">
+        <div>
+          <div class="eyebrow" style="margin-bottom:12px;">Agent modes</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button class="mode-btn active" onclick="setMode(this,'general')">🧠 General assistant<span class="sub">Search, recommend, answer questions</span></button>
+            <button class="mode-btn" onclick="setMode(this,'boq')">📄 BOQ / BOM reader<span class="sub">Upload &amp; extract material list</span></button>
+            <button class="mode-btn" onclick="setMode(this,'negotiate')">🤝 Price negotiator<span class="sub">Auto-negotiate with vendors</span></button>
+            <button class="mode-btn" onclick="setMode(this,'planner')">🏗️ Project planner<span class="sub">Build full material plan</span></button>
+            <button class="mode-btn" onclick="setMode(this,'track')">🚚 Track delivery<span class="sub">Live order &amp; shipment status</span></button>
+            <button class="mode-btn" onclick="setMode(this,'voice')">🎙️ Voice assistant<span class="sub">Hindi / English voice ordering</span></button>
+          </div>
+        </div>
+
+        <!-- Agent action log -->
+        <div>
+          <div class="eyebrow" style="margin-bottom:10px;color:var(--paper-dim);">Agent action log</div>
+          <div id="agent-log">
+            <div class="agent-step done"><div class="step-icon">✓</div><div class="step-text"><b>Suppliers fetched</b><span>68 NCR cement suppliers loaded</span></div></div>
+            <div class="agent-step done"><div class="step-icon">✓</div><div class="step-text"><b>Prices compared</b><span>UltraTech vs Shree vs JK</span></div></div>
+            <div class="agent-step"><div class="step-icon">⟳</div><div class="step-text"><b>Negotiating</b><span>Counter-offer sent to 2 vendors</span></div></div>
+            <div class="agent-step" style="opacity:.5;"><div class="step-icon">○</div><div class="step-text"><b>Awaiting approval</b><span>Pending your confirmation</span></div></div>
+          </div>
+        </div>
+
+        <!-- Quick suggestions -->
+        <div>
+          <div class="eyebrow" style="margin-bottom:10px;color:var(--paper-dim);">Quick prompts</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <button class="chat-action-btn" style="text-align:left;" data-q="Recommend material list for a G+3 residential project in Noida">📋 Material list for G+3 Noida</button>
+            <button class="chat-action-btn" style="text-align:left;" data-q="Compare OPC 53 cement prices in Gurugram">💰 Compare cement Gurugram</button>
+            <button class="chat-action-btn" style="text-align:left;" data-q="Negotiate TMT bar price to ₹60,000 per MT">🤝 Negotiate TMT price</button>
+            <button class="chat-action-btn" style="text-align:left;" data-q="Where is my last cement order?">🚚 Track last order</button>
+            <button class="chat-action-btn" style="text-align:left;" data-q="Reorder cement for site — same supplier as last time">🔁 Smart reorder cement</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat main -->
+      <div class="ai-main">
+        <div class="ai-chat-head">
+          <div>
+            <h3 id="mode-title">MODIT Agentic AI — General mode</h3>
+            <div class="status">● Active · Connected to 1,240 suppliers · Delhi NCR</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-outline btn-sm" onclick="clearChat()">Clear</button>
+            <a href="quotation.html" class="btn btn-amber btn-sm">Open RFQ builder</a>
+          </div>
+        </div>
+
+        <div class="ai-chat-body" id="ai-chat-body">
+          <div class="chat-msg bot">
+            <span class="bot-label">MODIT AGENT · GENERAL MODE</span>
+            Namaste! I'm your MODIT procurement agent for Delhi NCR. I can:<br>
+            <strong>→ Search</strong> materials from 1,240+ verified suppliers<br>
+            <strong>→ Compare</strong> prices across vendors in real time<br>
+            <strong>→ Negotiate</strong> bulk pricing on your behalf<br>
+            <strong>→ Place orders</strong> with GST billing &amp; BNPL<br>
+            <strong>→ Track delivery</strong> from dispatch to your site<br><br>
+            What are you sourcing today?
+            <div class="chat-actions">
+              <button class="chat-action-btn" data-q="Material list for 2BHK flat, Sector 62 Noida">2BHK material list</button>
+              <button class="chat-action-btn" data-q="Best cement price today in Noida">Cement prices today</button>
+              <button class="chat-action-btn" data-q="I need 20 MT Fe500D TMT bars urgently in Gurugram">Urgent TMT order</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:8px 22px 0;display:flex;flex-wrap:wrap;gap:6px;" id="quick-chips"></div>
+
+        <div class="ai-input-row">
+          <button class="voice-btn" id="voice-btn" title="Voice input (Hindi/English)" onclick="toggleVoice()">🎙️</button>
+          <input type="text" id="ai-page-input" placeholder="Describe your material need, project or ask the agent anything…" />
+          <button class="btn btn-amber" onclick="sendPageMsg()">Send →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features deep-dive -->
+<section class="divider">
+  <div class="wrap">
+    <div class="section-head"><div><div class="eyebrow">Agent capabilities</div><h2 style="font-size:28px;">Everything the agent can do for you</h2></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+      <div>
+        <h4 style="margin-bottom:18px;">For contractors &amp; builders</h4>
+        <ul style="display:flex;flex-direction:column;gap:14px;">
+          <li style="display:flex;gap:10px;"><span style="color:var(--amber);">✦</span><span><b>Voice-based reordering</b> — Site supervisors can say "20 bags cement, same as last order" in Hindi and the agent confirms and ships.</span></li>
+          <li style="display:flex;gap:10px;"><span style="color:var(--amber);">✦</span><span><b>Multi-site management</b> — Track procurement and delivery across 5+ active construction sites simultaneously.</span></li>
+          <li style="display:flex;gap:10px;"><span style="color:var(--amber);">✦</span><span><b>Smart reorder alerts</b> — AI predicts stock-outs 3 days in advance based on your site's consumption rate.</span></li>
+          <li style="display:flex;gap:10px;"><span style="color:var(--amber);">✦</span><span><b>BNPL credit integration</b> — Pre-approved credit line; pay within 30–60 days after material receipt and GRN sign-off.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="margin-bottom:18px;">For architects &amp; designers</h4>
+        <ul style="display:flex;flex-direction:column;gap:14px;">
+          <li style="display:flex;gap:10px;"><span style="color:var(--rebar-blue);">✦</span><span><b>BOQ-to-BOM converter</b> — Upload your architectural BOQ, get a mapped, priced Bill of Materials in minutes.</span></li>
+          <li style="display:flex;gap:10px;"><span style="color:var(--rebar-blue);">✦</span><span><b>Finish material discovery</b> — AI browses 400+ tile, sanitary and paint options matching your specification sheet.</span></li>
+          <li style="display:flex;gap:10px;"><span style="color:var(--rebar-blue);">✦</span><span><b>Client-ready PDF quotes</b> — Generate branded, itemised quotation PDFs for your clients with one click.</span></li>
+          <li style="display:flex;gap:10px;"><span style="color:var(--rebar-blue);">✦</span><span><b>Substitute recommendations</b> — If a spec material is unavailable, the AI suggests the closest verified alternative.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="modit-footer"></div>
+<script src="js/chrome.js"></script>
+<script>
+const MODES = {
+  general: { title:"MODIT Agentic AI — General mode", intro:"I'm in general mode — ask me anything about materials, prices, suppliers or your active orders." },
+  boq: { title:"MODIT Agent — BOQ / BOM Reader", intro:"BOQ mode active. Paste your bill of quantities or describe your project and I'll extract line items, map SKUs and generate a priced material list instantly." },
+  negotiate: { title:"MODIT Agent — Price Negotiator", intro:"Negotiation mode active. Tell me the material, quantity and your target price — I'll contact shortlisted suppliers with a counter-offer and report back within 2 hours." },
+  planner: { title:"MODIT Agent — Project Material Planner", intro:"Project planner mode. Describe your project (type, area, location) and I'll build a full phase-wise material plan with quantities, grade specs and cost estimates." },
+  track: { title:"MODIT Agent — Delivery Tracker", intro:"Tracking mode. I can see all your live and recent orders. Your last order #MD-10234 (200 bags cement) is currently 4.2 km from your Sector-62 site — ETA 38 minutes." },
+  voice: { title:"MODIT Agent — Voice Assistant", intro:"Voice mode active 🎙️ Press the microphone button and speak your requirement in Hindi or English. E.g. 'Bhai, 50 bag cement chahiye aaj Noida me' and I'll handle the rest." }
+};
+
+let currentMode = "general";
+
+function setMode(btn, mode) {
+  document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  currentMode = mode;
+  document.getElementById("mode-title").textContent = MODES[mode].title;
+  const body = document.getElementById("ai-chat-body");
+  const m = document.createElement("div");
+  m.className = "chat-msg bot";
+  m.innerHTML = `<span class="bot-label">MODE SWITCHED · ${mode.toUpperCase()}</span>${MODES[mode].intro}`;
+  body.appendChild(m);
+  body.scrollTop = body.scrollHeight;
+}
+
+function addMsg(text, who) {
+  const body = document.getElementById("ai-chat-body");
+  const m = document.createElement("div");
+  m.className = "chat-msg " + who;
+  if(who === "bot") m.innerHTML = `<span class="bot-label">MODIT AGENT</span>${text}`;
+  else m.textContent = text;
+  body.appendChild(m);
+  body.scrollTop = body.scrollHeight;
+}
+
+function mockReply(text) {
+  const t = text.toLowerCase();
+  if(t.includes("2bhk") || t.includes("flat") || t.includes("house"))
+    return "For a 2BHK (~950 sqft) in Noida:<br>→ <b>Cement:</b> 380 bags OPC 43 — best price ₹365/bag (Shree Cement Hub)<br>→ <b>TMT bars:</b> 4.2 MT Fe500D — ₹61,500/MT (RK Steel)<br>→ <b>Sand:</b> 320 cu.ft river sand — ₹54/cu.ft<br>→ <b>Bricks:</b> 6,800 units Class A — ₹9/piece<br>→ <b>Tiles:</b> 1,050 sqft vitrified 600x600 — ₹48/sqft<br><br><b>Total estimate: ₹4.8L – ₹5.2L</b> (material cost, ex-GST)<br><br>Want me to raise a bulk RFQ to 5 suppliers now?";
+  if(t.includes("cement") && (t.includes("price") || t.includes("compare")))
+    return "Live cement prices in your area (per 50kg bag):<br>→ UltraTech OPC 53: <b>₹372</b> · 2-hr delivery<br>→ Shree Cement: <b class='best'>₹365 ✓ best</b> · 24-hr delivery<br>→ JK Lakshmi: <b>₹380</b> · 3-hr delivery<br>→ Ambuja: <b>₹369</b> · 5-hr delivery<br><br>AI recommendation: Shree for cost, UltraTech if urgent. Shall I negotiate below ₹360?";
+  if(t.includes("tmt") || t.includes("steel"))
+    return "TMT bar prices (Fe500D, 12mm) near Gurugram:<br>→ RK Steel Traders: ₹61,500/MT — 3 hrs<br>→ Jindal Depot Faridabad: ₹62,000/MT — 24 hrs<br>→ Kamdhenu NCR: ₹63,200/MT — same day<br><br>For 20MT+ order I can negotiate to ₹59,500–60,000/MT. Should I send counter-offers?";
+  if(t.includes("negotiat"))
+    return "Negotiation initiated ✦<br>→ Sending counter-offer of ₹59,800/MT to RK Steel (vs. ₹61,500 listed)<br>→ Citing: 20MT order, established account, prompt payment<br>→ Estimated response: 1–2 hours<br><br>I'll alert you once they respond. Current best confirmed price is ₹61,500/MT from RK Steel.";
+  if(t.includes("track") || t.includes("order") || t.includes("delivery"))
+    return "📍 Order #MD-10234 (200 bags OPC 53 cement, Shree Cement Hub)<br>→ Dispatched: 09:14 AM — 2 tippers<br>→ Current location: NH-58, 4.2 km from Sector-62 site<br>→ ETA: <b>38 minutes</b><br>→ Driver: Ravi Singh (+91 98xxx xxxx)<br><br>Second order #MD-10201 (TMT bars) delivered and signed off ✓";
+  if(t.includes("reorder"))
+    return "Smart reorder draft ready ✦<br>Based on Sector-62 site consumption (avg. 18 bags/day), you'll run out of cement in ~3 days.<br><br>Proposed reorder: <b>300 bags OPC 53</b> from Shree Cement Hub @ ₹365/bag (same supplier, last rating 4.6★)<br>Total: ₹1,09,500 + GST<br><br>Approve to place order automatically or want me to re-quote?";
+  if(t.includes("boq") || t.includes("bom") || t.includes("extract"))
+    return "BOQ reader active. Please upload your file on the <a href='quotation.html' style='color:var(--rebar-blue)'>Quotation page</a> or paste line items here.<br><br>I support Excel, PDF and Word BOQs — I'll extract items, match them to live SKUs and return a priced BOM within 60 seconds.";
+  if(t.includes("voice") || t.includes("hindi"))
+    return "Voice mode supported in Hindi &amp; English 🎙️<br>Press the mic button and say something like:<br>→ 'Bhai, 50 bag cement aur 5 MT TMT Noida me chahiye'<br>→ 'Kal subah delivery chahiye, same supplier'<br><br>I'll confirm the order details before placing anything.";
+  return "Got it. I'm checking 1,240+ NCR suppliers for the best match — searching by price, location, delivery speed and rating. One moment… <br><br>Would you like me to also raise a formal RFQ to top 5 matched suppliers?";
+}
+
+async function sendPageMsg() {
+  const inp = document.getElementById("ai-page-input");
+  const text = inp.value.trim();
+  if(!text) return;
+  addMsg(text, "user");
+  inp.value = "";
+  const thinking = document.createElement("div");
+  thinking.className = "chat-msg bot";
+  thinking.innerHTML = '<span class="bot-label">MODIT AGENT</span><span style="color:var(--paper-dim)">Thinking…</span>';
+  document.getElementById("ai-chat-body").appendChild(thinking);
+  document.getElementById("ai-chat-body").scrollTop = 9999;
+
+  await new Promise(r => setTimeout(r, 1000 + Math.random()*800));
+  thinking.innerHTML = `<span class="bot-label">MODIT AGENT · ${currentMode.toUpperCase()} MODE</span>${mockReply(text)}`;
+  document.getElementById("ai-chat-body").scrollTop = 9999;
+}
+
+function clearChat() {
+  const body = document.getElementById("ai-chat-body");
+  body.innerHTML = `<div class="chat-msg bot"><span class="bot-label">MODIT AGENT</span>Chat cleared. How can I help?</div>`;
+}
+
+let voiceActive = false;
+function toggleVoice() {
+  const btn = document.getElementById("voice-btn");
+  voiceActive = !voiceActive;
+  btn.classList.toggle("listening", voiceActive);
+  btn.title = voiceActive ? "Listening… click to stop" : "Voice input";
+  if(voiceActive) {
+    if("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const rec = new SR();
+      rec.lang = "hi-IN";
+      rec.interimResults = false;
+      rec.onresult = e => {
+        document.getElementById("ai-page-input").value = e.results[0][0].transcript;
+        voiceActive = false;
+        btn.classList.remove("listening");
+      };
+      rec.onerror = () => { voiceActive = false; btn.classList.remove("listening"); };
+      rec.onend = () => { voiceActive = false; btn.classList.remove("listening"); };
+      rec.start();
+    } else {
+      document.getElementById("ai-page-input").placeholder = "(Voice not supported in this browser — type instead)";
+      voiceActive = false;
+      btn.classList.remove("listening");
+    }
+  }
+}
+
+document.getElementById("ai-page-input").addEventListener("keydown", e => {
+  if(e.key === "Enter") sendPageMsg();
+});
+
+document.querySelectorAll("[data-q]").forEach(b => {
+  b.addEventListener("click", () => {
+    document.getElementById("ai-page-input").value = b.dataset.q;
+    sendPageMsg();
+  });
+});
+</script>
+</body>
+</html>

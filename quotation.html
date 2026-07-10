@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quotation / BOQ — MODIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-active="quotation.html">
+<div id="modit-header"></div>
+
+<div class="page-head">
+  <div class="wrap">
+    <div class="eyebrow">Bulk procurement · BOQ · RFQ</div>
+    <h1>One requirement. Multiple competing quotes.</h1>
+    <p>Upload your BOQ, paste a material list, or fill in manually — MODIT's AI reads it, matches SKUs, sends to verified suppliers and returns normalised, comparable quotes in minutes.</p>
+  </div>
+</div>
+
+<section style="padding-top:40px;">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+
+    <!-- Left: input -->
+    <div>
+      <div class="form-card" style="margin-bottom:20px;">
+        <div class="eyebrow" style="margin-bottom:14px;">Step 1 · Upload or paste requirement</div>
+
+        <!-- BOQ Upload zone -->
+        <div class="upload-zone" id="upload-zone">
+          <div style="font-size:34px;margin-bottom:10px;">📄</div>
+          <div><b>Drag &amp; drop your BOQ here</b></div>
+          <div style="margin:6px 0;font-size:12px;color:var(--paper-dim);">Supports Excel (.xlsx), PDF, Word (.docx)</div>
+          <label style="display:inline-block;margin-top:10px;" class="btn btn-outline btn-sm">
+            Browse file <input type="file" style="display:none;" accept=".xlsx,.pdf,.docx" id="boq-file">
+          </label>
+          <div id="file-name" style="margin-top:10px;font-size:12px;color:var(--ok-green);"></div>
+        </div>
+
+        <div style="text-align:center;color:var(--paper-dim);font-size:13px;margin:14px 0;">— or type manually —</div>
+
+        <!-- Manual entry -->
+        <div class="form-row">
+          <label>Project name</label>
+          <input type="text" placeholder="e.g. 3BHK Villa — Sector 45 Gurugram" id="proj-name">
+        </div>
+        <div class="form-grid-2">
+          <div class="form-row">
+            <label>Project type</label>
+            <select id="proj-type">
+              <option>Residential</option>
+              <option>Commercial</option>
+              <option>Industrial</option>
+              <option>Renovation</option>
+              <option>Interior fit-out</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Location</label>
+            <select id="proj-loc">
+              <option>Noida</option>
+              <option>Greater Noida</option>
+              <option>Gurugram</option>
+              <option>Delhi</option>
+              <option>Faridabad</option>
+              <option>Ghaziabad</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Material requirement (paste your list)</label>
+          <textarea id="mat-list" placeholder="e.g.&#10;300 bags OPC 53 cement&#10;15 MT Fe500D 12mm TMT bars&#10;800 sqft vitrified tiles 600x600&#10;500m 2.5mm copper wire&#10;..."></textarea>
+        </div>
+        <div class="form-row">
+          <label>Required delivery date</label>
+          <input type="date" id="del-date">
+        </div>
+        <div class="form-row">
+          <label>Payment preference</label>
+          <select>
+            <option>Advance payment (UPI/NEFT)</option>
+            <option>Net-30 credit (BNPL)</option>
+            <option>Net-60 credit</option>
+            <option>Milestone-based</option>
+          </select>
+        </div>
+        <button class="btn btn-amber btn-block" onclick="generateQuote()">✦ Generate AI quotation →</button>
+      </div>
+
+      <!-- AI tip -->
+      <div class="ai-hint">✦ <span><b>BOQ Reader AI:</b> Upload any BOQ — the AI extracts line items, maps them to verified SKUs, applies current NCR market rates and sends a consolidated RFQ to top 5 matched suppliers simultaneously.</span></div>
+    </div>
+
+    <!-- Right: live quotation output -->
+    <div>
+      <div class="form-card" id="quote-output" style="border-color:var(--rebar-blue);min-height:200px;">
+        <div class="eyebrow" style="color:var(--rebar-blue);">Step 2 · AI-generated quotation</div>
+        <div id="quote-placeholder" style="color:var(--paper-dim);font-size:13.5px;padding:30px 0;text-align:center;">
+          <div style="font-size:36px;margin-bottom:12px;">⚙️</div>
+          Fill in your requirement on the left and click "Generate AI quotation" to see live pricing from multiple NCR suppliers.
+        </div>
+        <div id="quote-result" style="display:none;"></div>
+      </div>
+
+      <!-- Compare uploaded quotes -->
+      <div class="form-card" style="margin-top:20px;">
+        <div class="eyebrow">AI quotation comparison assistant</div>
+        <p style="font-size:13.5px;">Already received quotes from multiple vendors? Upload them here — the AI normalises units, strips taxes, and ranks true value.</p>
+        <div class="upload-zone" style="padding:20px;">
+          <div style="font-size:22px;">📂</div>
+          <div style="font-size:13px;">Drop 2+ vendor quotation files (PDF/Excel)</div>
+          <button class="btn btn-outline btn-sm" style="margin-top:10px;">Upload for AI comparison</button>
+        </div>
+        <div id="compare-result" style="margin-top:16px;display:none;">
+          <div class="eyebrow" style="color:var(--ok-green);">Comparison result</div>
+          <table class="compare-table" style="font-size:12.5px;">
+            <thead><tr><th>Vendor</th><th>Total (excl. GST)</th><th>Delivery</th><th>AI score</th></tr></thead>
+            <tbody>
+              <tr><td>Shree Cement Hub</td><td>₹2,18,400</td><td>24 hrs</td><td class="best">91 / 100 ✓</td></tr>
+              <tr><td>UltraTech Direct</td><td>₹2,23,200</td><td>2 hrs</td><td>87 / 100</td></tr>
+              <tr><td>JK Lakshmi Depot</td><td>₹2,28,000</td><td>3 hrs</td><td>80 / 100</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--rebar-blue);margin-top:10px;">★ AI recommends Shree Cement Hub for best value. UltraTech if same-day delivery is critical.</p>
+        </div>
+        <button class="btn btn-outline btn-block" style="margin-top:14px;" onclick="document.getElementById('compare-result').style.display='block'">Simulate AI comparison</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quotation history table -->
+<section class="divider">
+  <div class="wrap">
+    <div class="section-head"><div><div class="eyebrow">Order history</div><h2 style="font-size:26px;">Recent quotations &amp; orders</h2></div></div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>RFQ#</th><th>Project</th><th>Materials</th><th>Value</th><th>Status</th><th>Suppliers</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-family:var(--font-mono);">RFQ-2041</td>
+          <td>Sector 62 Villa, Noida</td>
+          <td>Cement, Steel, Tiles</td>
+          <td>₹8,24,000</td>
+          <td><span class="pill-status green">Order placed</span></td>
+          <td>3 quotes received</td>
+          <td><a href="#" class="btn btn-sm btn-outline">View</a></td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--font-mono);">RFQ-2038</td>
+          <td>Commercial project — Gurgaon</td>
+          <td>TMT bars, Aggregate</td>
+          <td>₹22,50,000</td>
+          <td><span class="pill-status amber">Comparing quotes</span></td>
+          <td>5 quotes received</td>
+          <td><a href="#" class="btn btn-sm btn-outline">View</a></td>
+        </tr>
+        <tr>
+          <td style="font-family:var(--font-mono);">RFQ-2031</td>
+          <td>Faridabad Warehouse</td>
+          <td>Plywood, Hardware, Paint</td>
+          <td>₹3,76,000</td>
+          <td><span class="pill-status green">Delivered</span></td>
+          <td>2 quotes received</td>
+          <td><a href="#" class="btn btn-sm btn-outline">Invoice</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div id="modit-footer"></div>
+<script src="js/chrome.js"></script>
+<script>
+document.getElementById("boq-file").addEventListener("change", function(){
+  if(this.files.length){
+    document.getElementById("file-name").textContent = "✓ " + this.files[0].name + " uploaded";
+    document.getElementById("upload-zone").style.borderColor = "var(--ok-green)";
+  }
+});
+
+function generateQuote() {
+  const proj = document.getElementById("proj-name").value || "Your project";
+  const loc = document.getElementById("proj-loc").value;
+  const mat = document.getElementById("mat-list").value;
+  const out = document.getElementById("quote-result");
+  const ph = document.getElementById("quote-placeholder");
+
+  ph.innerHTML = '<div style="font-size:28px;margin-bottom:10px;">⏳</div><div style="font-family:var(--font-mono);color:var(--amber);font-size:12px;">AI agent reading requirement · matching SKUs · contacting 6 suppliers…</div>';
+
+  setTimeout(() => {
+    ph.style.display = "none";
+    out.style.display = "block";
+    const items = mat.trim() ? mat.trim().split("\n").filter(Boolean) : [
+      "300 bags OPC 53 cement", "15 MT Fe500D 12mm TMT", "800 sqft vitrified tiles 600x600"
+    ];
+    out.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--ok-green);">● AI quotation ready · ${items.length} line items</div>
+          <h4 style="font-size:17px;margin-top:6px;">${proj} · ${loc}</h4>
+        </div>
+        <span class="pill-status green">Quotes from 5 suppliers</span>
+      </div>
+      <table class="compare-table" style="font-size:12.5px;margin-bottom:16px;">
+        <thead><tr><th>Material</th><th>Qty</th><th>Best price</th><th>Supplier</th><th>Delivery</th></tr></thead>
+        <tbody>
+          ${items.slice(0,6).map((item, i) => {
+            const prices = [18600, 61500, 38400, 2350, 2680, 9200];
+            const sups = ["Shree Cement Hub","RK Steel Traders","Kamal Tiles","Havells Hub","Asian Paints Depot","Delhi Aggregates"];
+            const dels = ["24 hrs","3 hrs","48 hrs","Same day","24 hrs","5 hrs"];
+            return `<tr><td>${item}</td><td>As specified</td><td class="best">₹${(prices[i%6]).toLocaleString("en-IN")}</td><td>${sups[i%6]}</td><td>${dels[i%6]}</td></tr>`;
+          }).join("")}
+        </tbody>
+      </table>
+      <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--steel-line);padding-top:14px;">
+        <div>
+          <div style="font-size:12px;color:var(--paper-dim);">Estimated total (ex-GST)</div>
+          <div style="font-size:22px;font-weight:800;color:var(--amber);">₹1,24,650 – ₹1,38,200</div>
+          <div style="font-size:11px;color:var(--paper-dim);">Range across 5 competing supplier bids</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-direction:column;">
+          <button class="btn btn-amber" onclick="alert('Order placed! RFQ-2042 created. Suppliers will confirm within 2 hours.')">Approve &amp; place order</button>
+          <button class="btn btn-outline btn-sm">Ask agent to negotiate →</button>
+        </div>
+      </div>
+    `;
+  }, 1800);
+}
+</script>
+</body>
+</html>
